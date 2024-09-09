@@ -1,8 +1,15 @@
 #!/bin/bash
 
-# Pull latest changes
-echo "Pulling the latest changes from remote..."
-git pull origin $(git rev-parse --abbrev-ref HEAD)
+# Ask user for confirmation before merging (pulling) code
+echo "Do you want to pull the latest changes from the remote branch? (y/n)"
+read -r pull_confirm
+
+if [[ "$pull_confirm" == "y" || "$pull_confirm" == "Y" ]]; then
+    echo "Pulling the latest changes from remote..."
+    git pull origin $(git rev-parse --abbrev-ref HEAD)
+else
+    echo "Skipping pulling changes."
+fi
 
 # Check if there are conflicts
 if git diff --name-only --diff-filter=U | grep -q ''; then
@@ -49,8 +56,14 @@ else
     echo "No uncommitted changes."
 fi
 
-# Push changes
-echo "Pushing changes to remote..."
-git push origin $(git rev-parse --abbrev-ref HEAD)
+# Ask user for confirmation before pushing the code
+echo "Do you want to push the changes to the remote branch? (y/n)"
+read -r push_confirm
 
-echo "Done!"
+if [[ "$push_confirm" == "y" || "$push_confirm" == "Y" ]]; then
+    echo "Pushing changes to remote..."
+    git push origin $(git rev-parse --abbrev-ref HEAD)
+    echo "Done!"
+else
+    echo "Push operation skipped."
+fi
