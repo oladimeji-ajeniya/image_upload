@@ -343,7 +343,7 @@ export class ImageUploadController {
   @UseInterceptors(
     FilesInterceptor(&#x27;files&#x27;, 10, {
       limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB limit per file
+        fileSize: 3 * 1024 * 1024, // 2MB limit per file
       },
       fileFilter: (req, file, cb) &#x3D;&gt; {
         // Ensure that only image files are allowed
